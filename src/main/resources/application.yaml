@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: local
+  web:
+    resources:
+      add-mappings: false
+  jpa:
+    open-in-view: false
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_UI_ENABLED:true}
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+    deep-linking: true
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: ${SPRINGDOC_SHOW_ACTUATOR:true}
