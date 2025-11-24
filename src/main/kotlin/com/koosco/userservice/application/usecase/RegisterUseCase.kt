@@ -9,10 +9,7 @@ import com.koosco.userservice.application.service.UserService
 import org.slf4j.LoggerFactory
 
 @UseCase
-class RegisterUseCase(
-    private val userService: UserService,
-    private val authServiceClient: AuthServiceClient,
-) {
+class RegisterUseCase(private val userService: UserService, private val authServiceClient: AuthServiceClient) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 

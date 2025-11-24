@@ -20,15 +20,13 @@ data class RegisterRequest(
     val provider: AuthProvider = AuthProvider.LOCAL,
 )
 
-fun RegisterRequest.toDto(): CreateUserDto {
-    return CreateUserDto(
-        email = this.email,
-        password = this.password,
-        name = this.name,
-        phone = this.phone,
-        provider = this.provider,
-    )
-}
+fun RegisterRequest.toDto(): CreateUserDto = CreateUserDto(
+    email = this.email,
+    password = this.password,
+    name = this.name,
+    phone = this.phone,
+    provider = this.provider,
+)
 
 data class UpdateRequest(
     @NotBlank(message = "Name must not be blank")
@@ -38,9 +36,7 @@ data class UpdateRequest(
     val phone: String,
 )
 
-fun UpdateRequest.toDto(): UpdateUserDto {
-    return UpdateUserDto(
-        name = this.name,
-        phone = this.phone,
-    )
-}
+fun UpdateRequest.toDto(): UpdateUserDto = UpdateUserDto(
+    name = this.name,
+    phone = this.phone,
+)

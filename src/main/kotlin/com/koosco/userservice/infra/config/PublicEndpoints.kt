@@ -8,6 +8,6 @@ class PublicEndpoints : PublicEndpointProvider {
     override fun publicEndpoints(): Array<String> = arrayOf(
         "/api/users",
         "/api/users/login",
-        "/api/users/**"
+        "/api/users/**",
     )
 }

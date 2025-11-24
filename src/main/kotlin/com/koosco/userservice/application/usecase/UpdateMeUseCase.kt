@@ -5,9 +5,7 @@ import com.koosco.userservice.application.dto.UpdateUserDto
 import com.koosco.userservice.application.service.UserService
 
 @UseCase
-class UpdateMeUseCase(
-    val userService : UserService
-) {
+class UpdateMeUseCase(val userService: UserService) {
 
     fun updateMe(userId: Long, dto: UpdateUserDto) {
         userService.update(userId, dto)

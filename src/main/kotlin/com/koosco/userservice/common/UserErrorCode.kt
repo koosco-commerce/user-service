@@ -6,11 +6,8 @@ import org.springframework.http.HttpStatus
 /**
  * User service specific error codes.
  */
-enum class UserErrorCode(
-    override val code: String,
-    override val message: String,
-    override val status: HttpStatus,
-) : ErrorCode {
+enum class UserErrorCode(override val code: String, override val message: String, override val status: HttpStatus) :
+    ErrorCode {
 
     // 400 Bad Request
     INVALID_PASSWORD_FORMAT("USER-400-001", "비밀번호 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),

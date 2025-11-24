@@ -5,5 +5,4 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableFeignClients(basePackages = ["com.koosco.userservice.infra.client"])
-class FeignConfig {
-}
+class FeignConfig

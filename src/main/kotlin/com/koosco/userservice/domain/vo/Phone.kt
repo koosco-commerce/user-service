@@ -13,9 +13,7 @@ value class Phone(val value: String?) {
 
         private val phoneRegex = Regex("^010-\\d{3,4}-?\\d{4}\$")
 
-        fun of(value: String?): Phone {
-            return Phone(value)
-        }
+        fun of(value: String?): Phone = Phone(value)
 
         fun isValid(phone: String): Boolean = phoneRegex.matches(phone)
     }

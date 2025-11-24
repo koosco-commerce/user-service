@@ -5,10 +5,7 @@ import com.koosco.userservice.domain.entity.User
 import org.springframework.stereotype.Repository
 
 @Repository
-class UserRepositoryImpl(
-    val jpaUserRepository: JpaUserRepository,
-    val userQuery: UserQuery
-) : UserRepository {
+class UserRepositoryImpl(val jpaUserRepository: JpaUserRepository, val userQuery: UserQuery) : UserRepository {
 
     override fun save(user: User): User = jpaUserRepository.save(user)
 

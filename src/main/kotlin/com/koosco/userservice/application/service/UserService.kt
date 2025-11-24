@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserService(
-    private val userRepository: UserRepository,
-) {
+class UserService(private val userRepository: UserRepository) {
 
     @Transactional
     fun registerUser(dto: CreateUserDto): User {
@@ -29,15 +27,13 @@ class UserService(
             )
 
             return userRepository.save(user)
-
         } catch (ex: DataIntegrityViolationException) {
             throw ConflictException(
                 UserErrorCode.EMAIL_ALREADY_EXISTS,
                 "이미 존재하는 이메일입니다.",
-                ex
+                ex,
             )
         }
-
     }
 
     @Transactional
@@ -49,7 +45,7 @@ class UserService(
     fun deleteById(userId: Long) {
         val user = userRepository.findActiveUserById(userId) ?: throw NotFoundException(
             UserErrorCode.USER_NOT_FOUND,
-            "User with id $userId not found"
+            "User with id $userId not found",
         )
 
         user.quit()
@@ -59,12 +55,12 @@ class UserService(
     fun update(userId: Long, dto: UpdateUserDto) {
         val user = userRepository.findActiveUserById(userId) ?: throw NotFoundException(
             UserErrorCode.USER_NOT_FOUND,
-            "User with id $userId not found"
+            "User with id $userId not found",
         )
 
         user.update(
             name = dto.name,
-            phone = Phone.of(dto.phone)
+            phone = Phone.of(dto.phone),
         )
     }
 }

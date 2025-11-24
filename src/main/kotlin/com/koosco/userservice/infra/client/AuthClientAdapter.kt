@@ -8,9 +8,7 @@ import feign.FeignException
 import org.springframework.stereotype.Component
 
 @Component
-class AuthClientAdapter(
-    private val authClient: AuthClient,
-) : AuthServiceClient {
+class AuthClientAdapter(private val authClient: AuthClient) : AuthServiceClient {
 
     override fun notifyUserCreated(userId: Long, password: String) {
         try {

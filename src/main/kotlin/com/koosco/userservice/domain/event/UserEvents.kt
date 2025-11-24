@@ -10,7 +10,4 @@ data class UserRegistered(
     override val occurredAt: LocalDateTime = LocalDateTime.now(),
 ) : DomainEvent
 
-data class UserDeleted(
-    val userId: Long,
-    override val occurredAt: LocalDateTime = LocalDateTime.now(),
-) : DomainEvent
+data class UserDeleted(val userId: Long, override val occurredAt: LocalDateTime = LocalDateTime.now()) : DomainEvent
