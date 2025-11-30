@@ -22,6 +22,7 @@ class RegisterUseCase(private val userService: UserService, private val authServ
                 password = dto.password,
                 email = dto.email,
                 provider = dto.provider,
+                role = user.role,
             )
         } catch (ex: Exception) {
             runCatching { userService.rollback(user) }
