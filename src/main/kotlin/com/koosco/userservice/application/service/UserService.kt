@@ -37,11 +37,6 @@ class UserService(private val userRepository: UserRepository) {
     }
 
     @Transactional
-    fun rollback(user: User) {
-        user.activate()
-    }
-
-    @Transactional
     fun deleteById(userId: Long) {
         val user = userRepository.findActiveUserById(userId) ?: throw NotFoundException(
             UserErrorCode.USER_NOT_FOUND,

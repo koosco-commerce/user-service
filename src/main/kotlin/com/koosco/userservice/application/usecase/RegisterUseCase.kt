@@ -25,7 +25,7 @@ class RegisterUseCase(private val userService: UserService, private val authServ
                 role = user.role,
             )
         } catch (ex: Exception) {
-            runCatching { userService.rollback(user) }
+            runCatching { userService.deleteById(user.id!!) }
                 .onFailure {
                     // TODO : 실패 처리
                     logger.error("rollback error", it)
