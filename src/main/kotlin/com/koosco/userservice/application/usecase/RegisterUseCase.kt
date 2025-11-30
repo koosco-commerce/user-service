@@ -17,7 +17,13 @@ class RegisterUseCase(private val userService: UserService, private val authServ
         val user = userService.registerUser(dto)
 
         try {
-            authServiceClient.notifyUserCreated(user.id!!, dto.password)
+            authServiceClient.notifyUserCreated(
+                userId = user.id!!,
+                password = dto.password,
+                email = dto.email,
+                provider = dto.provider,
+                role = user.role,
+            )
         } catch (ex: Exception) {
             runCatching { userService.rollback(user) }
                 .onFailure {

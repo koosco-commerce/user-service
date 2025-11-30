@@ -1,9 +1,6 @@
 package com.koosco.userservice.domain.entity
 
-import com.koosco.userservice.domain.vo.AuthProvider
-import com.koosco.userservice.domain.vo.Email
-import com.koosco.userservice.domain.vo.Phone
-import com.koosco.userservice.domain.vo.UserStatus
+import com.koosco.userservice.domain.vo.*
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -30,6 +27,10 @@ class User(
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    val role: UserRole = UserRole.USER,
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     val provider: AuthProvider = AuthProvider.LOCAL,
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -37,11 +38,12 @@ class User(
     var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     companion object {
-        fun create(email: Email, name: String, phone: Phone, provider: AuthProvider): User = User(
+        fun createUser(email: Email, name: String, phone: Phone, provider: AuthProvider): User = User(
             email = email,
             name = name,
             phone = phone,
             provider = provider,
+            role = UserRole.USER,
         )
     }
 

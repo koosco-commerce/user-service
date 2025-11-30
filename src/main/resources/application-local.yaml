@@ -16,7 +16,7 @@ spring:
     baseline-on-migrate: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
@@ -29,6 +29,9 @@ spring:
   kafka:
     producer:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
+
+auth-service:
+  url: ${AUTH_SERVICE_URL:http://localhost:8081}
 
 jwt:
   secret: ${JWT_SECRET:mySecretKeyForJWTWhichShouldBeAtLeast256BitsLongToEnsureSecurityAndCompliance}
