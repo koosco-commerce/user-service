@@ -2,7 +2,7 @@ package com.koosco.userservice.api.dto
 
 import com.koosco.userservice.application.dto.CreateUserDto
 import com.koosco.userservice.application.dto.UpdateUserDto
-import com.koosco.userservice.domain.vo.AuthProvider
+import com.koosco.userservice.domain.enums.AuthProvider
 import jakarta.validation.constraints.NotBlank
 
 data class RegisterRequest(

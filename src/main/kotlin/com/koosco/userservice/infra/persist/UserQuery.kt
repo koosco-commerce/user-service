@@ -2,7 +2,7 @@ package com.koosco.userservice.infra.persist
 
 import com.koosco.userservice.domain.entity.QUser.user
 import com.koosco.userservice.domain.entity.User
-import com.koosco.userservice.domain.vo.UserStatus
+import com.koosco.userservice.domain.enums.UserStatus
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 

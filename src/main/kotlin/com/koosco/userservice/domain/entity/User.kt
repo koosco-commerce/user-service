@@ -1,5 +1,8 @@
 package com.koosco.userservice.domain.entity
 
+import com.koosco.userservice.domain.enums.AuthProvider
+import com.koosco.userservice.domain.enums.UserRole
+import com.koosco.userservice.domain.enums.UserStatus
 import com.koosco.userservice.domain.vo.*
 import jakarta.persistence.*
 import java.time.LocalDateTime
