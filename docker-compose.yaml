@@ -1,7 +1,7 @@
 services:
   db:
     image: mariadb:11.8.5
-    container_name: mariadb
+    container_name: user-mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -11,4 +11,4 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./user_mariadb_data:/var/lib/mysql
