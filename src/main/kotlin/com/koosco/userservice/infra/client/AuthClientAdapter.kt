@@ -4,7 +4,6 @@ import com.koosco.common.core.error.CommonErrorCode
 import com.koosco.common.core.exception.ExternalServiceException
 import com.koosco.userservice.application.client.AuthServiceClient
 import com.koosco.userservice.domain.vo.AuthProvider
-import com.koosco.userservice.domain.vo.UserRole
 import com.koosco.userservice.infra.client.dto.CreateUserRequest
 import feign.FeignException
 import org.springframework.stereotype.Component
@@ -12,13 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 class AuthClientAdapter(private val authClient: AuthClient) : AuthServiceClient {
 
-    override fun notifyUserCreated(
-        userId: Long,
-        password: String,
-        email: String,
-        provider: AuthProvider?,
-        role: UserRole,
-    ) {
+    override fun notifyUserCreated(userId: Long, password: String, email: String, provider: AuthProvider?) {
         try {
             authClient.createUser(
                 CreateUserRequest(
@@ -26,7 +19,6 @@ class AuthClientAdapter(private val authClient: AuthClient) : AuthServiceClient 
                     email = email,
                     password = password,
                     provider = provider,
-                    role = role,
                 ),
             )
         } catch (e: FeignException) {
