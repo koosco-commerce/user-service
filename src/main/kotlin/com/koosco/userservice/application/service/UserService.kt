@@ -19,7 +19,7 @@ class UserService(private val userRepository: UserRepository) {
     @Transactional
     fun registerUser(dto: CreateUserDto): User {
         try {
-            val user = User.create(
+            val user = User.createUser(
                 email = Email.of(dto.email),
                 name = dto.name,
                 phone = Phone.of(dto.phone),

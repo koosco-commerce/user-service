@@ -30,6 +30,9 @@ spring:
         order_inserts: true
         order_updates: true
 
+auth-service:
+  url: ${AUTH_SERVICE_URL:http://auth-service.commerce.svc.cluster.local}
+
 logging:
   level:
     org.flywaydb: info
