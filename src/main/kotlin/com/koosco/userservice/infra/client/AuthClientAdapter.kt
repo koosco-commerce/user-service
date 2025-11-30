@@ -3,8 +3,8 @@ package com.koosco.userservice.infra.client
 import com.koosco.common.core.error.CommonErrorCode
 import com.koosco.common.core.exception.ExternalServiceException
 import com.koosco.userservice.application.client.AuthServiceClient
-import com.koosco.userservice.domain.vo.AuthProvider
-import com.koosco.userservice.domain.vo.UserRole
+import com.koosco.userservice.domain.enums.AuthProvider
+import com.koosco.userservice.domain.enums.UserRole
 import com.koosco.userservice.infra.client.dto.CreateUserRequest
 import feign.FeignException
 import org.springframework.stereotype.Component

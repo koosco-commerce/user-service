@@ -1,6 +1,10 @@
 package com.koosco.userservice.domain.entity
 
-import com.koosco.userservice.domain.vo.*
+import com.koosco.userservice.domain.enums.AuthProvider
+import com.koosco.userservice.domain.enums.UserRole
+import com.koosco.userservice.domain.enums.UserStatus
+import com.koosco.userservice.domain.vo.Email
+import com.koosco.userservice.domain.vo.Phone
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -27,7 +31,7 @@ class User(
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val role: UserRole = UserRole.USER,
+    val role: UserRole = UserRole.ROLE_USER,
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -43,7 +47,7 @@ class User(
             name = name,
             phone = phone,
             provider = provider,
-            role = UserRole.USER,
+            role = UserRole.ROLE_USER,
         )
     }
 

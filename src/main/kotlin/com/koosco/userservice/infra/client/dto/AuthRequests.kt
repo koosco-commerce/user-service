@@ -1,7 +1,7 @@
 package com.koosco.userservice.infra.client.dto
 
-import com.koosco.userservice.domain.vo.AuthProvider
-import com.koosco.userservice.domain.vo.UserRole
+import com.koosco.userservice.domain.enums.AuthProvider
+import com.koosco.userservice.domain.enums.UserRole
 
 data class CreateUserRequest(
     val userId: Long,

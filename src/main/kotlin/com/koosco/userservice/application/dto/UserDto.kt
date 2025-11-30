@@ -1,6 +1,6 @@
 package com.koosco.userservice.application.dto
 
-import com.koosco.userservice.domain.vo.AuthProvider
+import com.koosco.userservice.domain.enums.AuthProvider
 
 data class CreateUserDto(
     val email: String,

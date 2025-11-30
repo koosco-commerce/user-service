@@ -1,4 +1,4 @@
-package com.koosco.userservice.domain.vo
+package com.koosco.userservice.domain.enums
 
 enum class UserStatus {
     ACTIVE,
