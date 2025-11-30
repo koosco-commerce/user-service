@@ -83,17 +83,26 @@ validate: ## Validate Kubernetes configurations
 # ============================================
 
 k8s-status: ## Show Kubernetes resources status
-	@echo "$(GREEN)Pods:$(NC)"
+	@echo "$(GREEN)Application Pods:$(NC)"
 	@kubectl get pods -n commerce -l app=user-service
 	@echo ""
+	@echo "$(GREEN)MariaDB Pods:$(NC)"
+	@kubectl get pods -n commerce -l app=user-service-mariadb
+	@echo ""
 	@echo "$(GREEN)Services:$(NC)"
-	@kubectl get svc -n commerce -l app=user-service
+	@kubectl get svc -n commerce -l service=user-service
 	@echo ""
 	@echo "$(GREEN)HPA:$(NC)"
 	@kubectl get hpa -n commerce -l app=user-service
 	@echo ""
-	@echo "$(GREEN)Deployments:$(NC)"
+	@echo "$(GREEN)Application Deployments:$(NC)"
 	@kubectl get deployments -n commerce -l app=user-service
+	@echo ""
+	@echo "$(GREEN)MariaDB Deployments:$(NC)"
+	@kubectl get deployments -n commerce -l app=user-service-mariadb
+	@echo ""
+	@echo "$(GREEN)PVC (Persistent Volume Claims):$(NC)"
+	@kubectl get pvc -n commerce -l app=user-service-mariadb
 
 k8s-logs: ## Show application logs
 	@kubectl logs -f deployment/user-service -n commerce

@@ -40,3 +40,4 @@ out/
 .kotlin
 
 .h2
+*_mariadb_data/
