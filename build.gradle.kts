@@ -33,7 +33,7 @@ repositories {
         }
     }
     maven {
-        url = uri("https://maven.pkg.github.com/koosco-commerce/common-security") // ← 추가!
+        url = uri("https://maven.pkg.github.com/koosco-commerce/common-security")
         credentials {
             username = project.findProperty("gpr.user") as String?
                 ?: System.getenv("GH_USER")
@@ -59,7 +59,6 @@ dependencies {
 
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
@@ -108,6 +107,7 @@ kotlin {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
+
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
