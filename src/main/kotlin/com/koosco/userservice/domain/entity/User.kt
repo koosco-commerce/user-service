@@ -1,5 +1,7 @@
 package com.koosco.userservice.domain.entity
 
+import com.koosco.common.core.exception.ConflictException
+import com.koosco.userservice.common.UserErrorCode
 import com.koosco.userservice.domain.enums.AuthProvider
 import com.koosco.userservice.domain.enums.UserRole
 import com.koosco.userservice.domain.enums.UserStatus
@@ -64,6 +66,14 @@ class User(
 
     fun activate() {
         this.status = UserStatus.ACTIVE
+        this.updatedAt = LocalDateTime.now()
+    }
+
+    fun forceDelete() {
+        if (status === UserStatus.BLOCKED) {
+            throw ConflictException(UserErrorCode.USER_ALREADY_DELETED)
+        }
+        this.status = UserStatus.BLOCKED
         this.updatedAt = LocalDateTime.now()
     }
 }

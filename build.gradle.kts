@@ -50,7 +50,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("com.koosco:common-core:0.0.3")
+    implementation("com.koosco:common-core:0.2.0")
     implementation("com.koosco:common-security:0.0.2")
 
     // kafka

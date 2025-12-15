@@ -23,4 +23,5 @@ enum class UserErrorCode(override val code: String, override val message: String
     // 409 Conflict
     EMAIL_ALREADY_EXISTS("USER-409-001", "이미 사용 중인 이메일입니다.", HttpStatus.CONFLICT),
     USERNAME_ALREADY_EXISTS("USER-409-002", "이미 사용 중인 사용자명입니다.", HttpStatus.CONFLICT),
+    USER_ALREADY_DELETED("USER-409-003", "이미 삭제된 사용자입니다.", HttpStatus.CONFLICT),
 }
