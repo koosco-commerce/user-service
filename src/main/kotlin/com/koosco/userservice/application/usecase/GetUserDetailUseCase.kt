@@ -1,16 +1,16 @@
-package com.koosco.userservice.application.service
+package com.koosco.userservice.application.usecase
 
+import com.koosco.common.core.annotation.UseCase
 import com.koosco.common.core.exception.NotFoundException
+import com.koosco.userservice.application.command.GetUserDetailCommand
 import com.koosco.userservice.application.dto.UserDto
 import com.koosco.userservice.application.repository.UserRepository
 import com.koosco.userservice.common.UserErrorCode
-import org.springframework.stereotype.Service
 
-@Service
-class UserQueryService(private val userRepository: UserRepository) {
-
-    fun findById(userId: Long): UserDto {
-        val user = userRepository.findActiveUserById(userId)
+@UseCase
+class GetUserDetailUseCase(private val userRepository: UserRepository) {
+    fun execute(command: GetUserDetailCommand): UserDto {
+        val user = userRepository.findActiveUserById(command.userId)
             ?: throw NotFoundException(UserErrorCode.USER_NOT_FOUND)
 
         return UserDto(
