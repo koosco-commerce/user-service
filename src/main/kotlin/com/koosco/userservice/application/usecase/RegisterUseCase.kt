@@ -51,7 +51,7 @@ class RegisterUseCase(
 
     private fun registerUser(command: CreateUserCommand): User {
         try {
-            val user = User.Companion.createUser(
+            val user = User.createUser(
                 email = Email.Companion.of(command.email),
                 name = command.name,
                 phone = Phone.Companion.of(command.phone),
