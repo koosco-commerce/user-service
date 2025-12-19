@@ -1,4 +1,8 @@
-.PHONY: help build test clean docker-build docker-clean deploy-local deploy-dev deploy-prod validate k8s-status k8s-logs k8s-clean gradle-build gradle-clean jar
+.PHONY: help jar build test clean docker-build docker-clean \
+        gradle-build gradle-test gradle-clean \
+        deploy-local deploy-dev deploy-prod validate \
+        k8s-status k8s-describe k8s-stop k8s-start k8s-scale k8s-clean \
+        flyway-history flyway-history-local flyway-clean flyway-clean-local flyway-reset flyway-reset-local
 
 # Default target
 .DEFAULT_GOAL := help
@@ -14,11 +18,9 @@ help: ## Show this help message
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-20s$(NC) %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Examples:$(NC)"
-	@echo "  make build              # Build jar and Docker image"
-	@echo "  make test               # Local build and test"
-	@echo "  make deploy-local       # Deploy to local K8s"
-	@echo "  make k8s-logs           # View application logs"
+	@echo "$(GREEN)Environment Variables:$(NC)"
+	@echo "  GH_USER    - GitHub username (required for build)"
+	@echo "  GH_TOKEN   - GitHub token (required for build)"
 	@echo ""
 
 # ============================================
@@ -105,21 +107,8 @@ k8s-status: ## Show Kubernetes resources status
 	@echo "$(GREEN)PVC (Persistent Volume Claims):$(NC)"
 	@kubectl get pvc -n commerce -l app=user-service-mariadb
 
-k8s-logs: ## Show application logs
-	@kubectl logs -f deployment/user-service -n commerce
-
-k8s-logs-db: ## Show MariaDB logs
-	@kubectl logs -f deployment/user-service-mariadb -n commerce
-
 k8s-describe: ## Describe pod (for debugging)
 	@kubectl describe pod -n commerce -l app=user-service
-
-k8s-shell: ## Open shell in application pod
-	@kubectl exec -it deployment/user-service -n commerce -- /bin/sh
-
-k8s-restart: ## Restart application deployment
-	@kubectl rollout restart deployment/user-service -n commerce
-	@echo "$(GREEN)✓ Deployment restarted$(NC)"
 
 k8s-stop: ## Stop application (scale to 0)
 	@echo "$(YELLOW)Stopping application (scaling to 0)...$(NC)"
@@ -148,50 +137,6 @@ k8s-clean: ## Delete all Kubernetes resources
 	@kubectl delete deployment,svc,configmap,secret,hpa,pdb -n commerce -l app=user-service 2>/dev/null || true
 	@kubectl delete deployment,svc,secret,pvc -n commerce -l app=user-service-mariadb 2>/dev/null || true
 	@echo "$(GREEN)✓ Resources deleted$(NC)"
-
-# ============================================
-# Port Forwarding
-# ============================================
-
-port-forward: ## Forward application port to localhost:8080
-	@echo "$(GREEN)Forwarding port 8080...$(NC)"
-	@echo "Access at: http://localhost:8080"
-	@kubectl port-forward svc/user-service 8080:80 -n commerce
-
-port-forward-db: ## Forward MariaDB port to localhost:3306
-	@echo "$(GREEN)Forwarding MariaDB port 3306...$(NC)"
-	@kubectl port-forward svc/user-service-mariadb 3306:3306 -n commerce
-
-# ============================================
-# Health Checks
-# ============================================
-
-health: ## Check application health (requires port-forward)
-	@curl -s http://localhost:8080/actuator/health | jq
-
-health-liveness: ## Check liveness probe
-	@curl -s http://localhost:8080/actuator/health/liveness | jq
-
-health-readiness: ## Check readiness probe
-	@curl -s http://localhost:8080/actuator/health/readiness | jq
-
-# ============================================
-# Database
-# ============================================
-
-db-up: ## Start local MariaDB
-	@docker-compose up -d db
-	@echo "$(GREEN)✓ MariaDB started$(NC)"
-
-db-down: ## Stop local MariaDB
-	@docker-compose down
-	@echo "$(GREEN)✓ MariaDB stopped$(NC)"
-
-db-logs: ## Show MariaDB logs
-	@docker-compose logs -f db
-
-db-shell: ## Connect to local MariaDB shell
-	@docker exec -it user-mariadb mysql -uadmin -padmin1234 commerce-user
 
 # ============================================
 # Flyway Management
@@ -243,13 +188,3 @@ flyway-reset-local: ## Reset Flyway history completely (Local) - DANGEROUS!
 		-e "DROP TABLE IF EXISTS flyway_schema_history;" \
 		2>/dev/null && echo "$(GREEN)✓ Flyway history reset$(NC)" \
 		|| echo "$(RED)Error: Cannot reset Flyway$(NC)"
-
-# ============================================
-# Quick Commands
-# ============================================
-
-dev: clean test ## Clean and test (quick dev workflow)
-
-redeploy: k8s-clean deploy-local ## Clean and redeploy to local K8s
-
-check: k8s-status k8s-logs ## Check deployment status and logs
