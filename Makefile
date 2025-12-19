@@ -1,4 +1,4 @@
-.PHONY: help build test clean docker-build docker-clean deploy-local deploy-dev deploy-prod validate k8s-status k8s-logs k8s-clean gradle-build gradle-clean
+.PHONY: help build test clean docker-build docker-clean deploy-local deploy-dev deploy-prod validate k8s-status k8s-logs k8s-clean gradle-build gradle-clean jar
 
 # Default target
 .DEFAULT_GOAL := help
@@ -14,11 +14,8 @@ help: ## Show this help message
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-20s$(NC) %s\n", $$1, $$2}'
 	@echo ""
-	@echo "$(GREEN)Environment Variables:$(NC)"
-	@echo "  GH_USER    - GitHub username (required for build)"
-	@echo "  GH_TOKEN   - GitHub token (required for build)"
-	@echo ""
 	@echo "$(GREEN)Examples:$(NC)"
+	@echo "  make build              # Build jar and Docker image"
 	@echo "  make test               # Local build and test"
 	@echo "  make deploy-local       # Deploy to local K8s"
 	@echo "  make k8s-logs           # View application logs"
@@ -37,13 +34,17 @@ clean: ## Clean up local containers and data
 	@docker-compose down -v
 	@echo "$(GREEN)✓ Cleanup complete$(NC)"
 
-docker-build: ## Build Docker image only
+jar: ## Build jar file with Gradle
+	@echo "$(YELLOW)Building jar file...$(NC)"
+	@./gradlew bootJar
+	@echo "$(GREEN)✓ Jar file built$(NC)"
+
+build: jar ## Build jar and Docker image
 	@echo "$(YELLOW)Building Docker image...$(NC)"
-	@docker build \
-		--build-arg GH_USER=${GH_USER} \
-		--build-arg GH_TOKEN=${GH_TOKEN} \
-		-t user-service:latest .
+	@docker build -t user-service:latest .
 	@echo "$(GREEN)✓ Image built: user-service:latest$(NC)"
+
+docker-build: build ## Alias for build (deprecated, use 'make build')
 
 docker-clean: ## Remove Docker image
 	@docker rmi user-service:latest 2>/dev/null || true

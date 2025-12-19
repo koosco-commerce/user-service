@@ -1,30 +1,4 @@
-# Multi-stage build for Spring Boot application
-FROM gradle:8.11.1-jdk21-alpine AS builder
-
-# GitHub credentials for private dependencies
-ARG GH_USER
-ARG GH_TOKEN
-ENV GH_USER=${GH_USER}
-ENV GH_TOKEN=${GH_TOKEN}
-
-# Set working directory
-WORKDIR /app
-
-# Copy gradle files for dependency caching
-COPY build.gradle.kts settings.gradle.kts ./
-COPY gradle ./gradle
-
-# Download dependencies (cached layer)
-# GitHub credentials are already set as ENV variables
-RUN gradle dependencies --no-daemon || true
-
-# Copy source code
-COPY src ./src
-
-# Build application
-RUN gradle bootJar --no-daemon -x test
-
-# Runtime stage
+# Runtime stage only - expects pre-built jar
 FROM eclipse-temurin:21-jre-alpine
 
 # Add non-root user for security
@@ -33,8 +7,8 @@ RUN addgroup -S spring && adduser -S spring -G spring
 # Set working directory
 WORKDIR /app
 
-# Copy jar from builder
-COPY --from=builder /app/build/libs/*.jar app.jar
+# Copy pre-built jar from local build directory
+COPY build/libs/*.jar app.jar
 
 # Change ownership to non-root user
 RUN chown -R spring:spring /app
